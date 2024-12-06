@@ -18,6 +18,7 @@ resource aksCluster  'Microsoft.ContainerService/ManagedClusters@2023-02-01' = {
         vmSize: vmSize
         osDiskSizeGB: 30
         osType: 'Linux'
+        mode: 'SystemAssigned'
       }
     ]
   }
