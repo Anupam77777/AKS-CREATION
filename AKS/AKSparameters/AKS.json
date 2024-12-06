@@ -2,14 +2,20 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "nodeCount": {
-      "value": 2
+    "aksClusterName": {
+      "value": "myAKSCluster"
     },
     "vmSize": {
-      "value": "Standard_D2s_v5"
+      "value": "Standard_DS2_v2"
     },
     "location": {
       "value": "East US"
+    },
+    "nodeCount": {
+      "value": 2
+    },
+    "resourceGroupName": {
+      "value": "MYFIRSTRG"
     }
   }
 }
