@@ -1,44 +1,50 @@
-param location string
-param nodeCount int 
-param vmSize string 
+@description('Name of the AKS cluster')
+param aksClusterName string = 'myAKSCluster'
 
-resource aksCluster  'Microsoft.ContainerService/ManagedClusters@2023-02-01' = {
-  name: 'myAKScluster'
+@description('Name of the resource group')
+param resourceGroupName string = 'myResourceGroup'
+
+@description('Location for the resources')
+param location string = 'East US'
+
+@description('The size of the Virtual Machine')
+param vmSize string = 'Standard_DS2_v2'
+
+@description('The number of nodes in the node pool')
+param nodeCount int = 2
+
+resource aksCluster 'Microsoft.ContainerService/managedClusters@2021-05-01' = {
+  name: aksClusterName
   location: location
   properties: {
-    kubernetesVersion: '1.26.11'
-    nodeResourceGroup: 'MC_myAKScluster_eastus_nodepool1'
-    networkProfile: {
-      networkPlugin: 'kubenet'
-    }
+    kubernetesVersion: '1.20.9'
+    dnsPrefix: 'aksdns'
     agentPoolProfiles: [
       {
         name: 'nodepool1'
         count: nodeCount
         vmSize: vmSize
-        osDiskSizeGB: 30
         osType: 'Linux'
-        mode: 'SystemAssigned'
+        mode: 'System'
+        type: 'VirtualMachineScaleSets'
+        availabilityZones: [
+          '1'
+          '2'
+          '3'
+        ]
       }
     ]
+    networkProfile: {
+      networkPlugin: 'kubenet'
+    }
+    identity: {
+      type: 'SystemAssigned'
+    }
   }
 }
 
-resource acr  'Microsoft.ContainerRegistry/registries@2023-08-01' = {
-  name: 'myACR'
-  location: location
-  properties: {
-    sku: 'Standard'
-    adminUserEnabled: true
-  }
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' existing = {
+  name: resourceGroupName
 }
 
-// Link the ACR to the AKS cluster
-resource aksAcrConfig  'Microsoft.ContainerService/ManagedClusters/containerRegistries@2023-02-01' = {
-  parent: aksCluster
-  name: 'myACR'
-  properties: {
-    loginServer: acr.properties.loginServer
-    password: acr.properties.adminPassword
-  }
-}
+output kubeConfig string = aksCluster.properties.kubeConfig
