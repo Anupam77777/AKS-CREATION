@@ -17,5 +17,5 @@ steps:
     inlineScript: |
       az deployment group create \
         --resource-group $(resourceGroup) \
-        --template-file template.json \
-        --parameters @parameters.json
+        --template-file AKS/template.json \
+        --parameters @AKS/parameters.json
