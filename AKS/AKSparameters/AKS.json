@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "nodeCount": {
+      "value": "2"
+    },
+    "vmSize": {
+      "value": "Standard_D2s_v5"
+    },
+    "location": {
+      "value": "East US"
+    }
+  }
+}
