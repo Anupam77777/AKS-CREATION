@@ -1,14 +1,14 @@
 @description('Name of the AKS cluster')
-param aksClusterName string = 'myAKSCluster'
+param aksClusterName string
 
 @description('Name of the resource group')
-param resourceGroupName string = 'myResourceGroup'
+param resourceGroupName string 
 
 @description('Location for the resources')
-param location string = 'East US'
+param location string
 
 @description('The size of the Virtual Machine')
-param vmSize string = 'Standard_DS2_v2'
+param vmSize string 
 
 @description('The number of nodes in the node pool')
 param nodeCount int = 2
@@ -17,7 +17,7 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2021-05-01' = {
   name: aksClusterName
   location: location
   properties: {
-    kubernetesVersion: '1.20.9'
+    kubernetesVersion: '1.26.11'
     dnsPrefix: 'aksdns'
     agentPoolProfiles: [
       {
