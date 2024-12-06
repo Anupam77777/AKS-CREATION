@@ -7,9 +7,6 @@ param location string
 @description('The size of the Virtual Machine')
 param vmSize string 
 
-@minValue(0)
-@maxValue(1023)
-param osDiskSizeGB init = 0
 
 @description('The number of nodes in the node pool')
 param nodeCount int = 2
@@ -25,7 +22,6 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2023-07-02-previ
     agentPoolProfiles: [
       {
         name: 'nodepool1'
-        osDiskSizeGB: osDiskSizeGB
         count: nodeCount
         vmSize: vmSize
         osType: 'Linux'
