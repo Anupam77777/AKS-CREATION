@@ -2,7 +2,7 @@ param location string
 param nodeCount int 
 param vmSize string 
 
-resource aksCluster resource 'Microsoft.ContainerService/ManagedClusters@2023-02-01' = {
+resource aksCluster  'Microsoft.ContainerService/ManagedClusters@2023-02-01' = {
   name: 'myAKScluster'
   location: location
   properties: {
@@ -23,7 +23,7 @@ resource aksCluster resource 'Microsoft.ContainerService/ManagedClusters@2023-02
   }
 }
 
-resource acr resource 'Microsoft.ContainerRegistry/registries@2023-08-01' = {
+resource acr  'Microsoft.ContainerRegistry/registries@2023-08-01' = {
   name: 'myACR'
   location: location
   properties: {
@@ -33,7 +33,7 @@ resource acr resource 'Microsoft.ContainerRegistry/registries@2023-08-01' = {
 }
 
 // Link the ACR to the AKS cluster
-resource aksAcrConfig resource 'Microsoft.ContainerService/ManagedClusters/containerRegistries@2023-02-01' = {
+resource aksAcrConfig  'Microsoft.ContainerService/ManagedClusters/containerRegistries@2023-02-01' = {
   parent: aksCluster
   name: 'myACR'
   properties: {
