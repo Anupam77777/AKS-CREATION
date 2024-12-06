@@ -1,0 +1,22 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  azureSubscription: 'MYFIRSTSERVICECONNECTION'
+  resourceGroup: 'MYFIRSTRG'
+  location: 'East US'
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: $(azureSubscription)
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az deployment group create \
+        --resource-group $(resourceGroup) \
+        --template-file template.json \
+        --parameters @parameters.json
