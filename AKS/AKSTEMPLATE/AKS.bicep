@@ -1,5 +1,5 @@
 @description('Name of the AKS cluster')
-param aksClusterName string
+param aksClusterName string 
 
 @description('Location for the resources')
 param location string
@@ -7,10 +7,16 @@ param location string
 @description('The size of the Virtual Machine')
 param vmSize string 
 
+@minValue(0)
+@maxValue(1023)
+param osDiskSizeGB init = 0
+
 @description('The number of nodes in the node pool')
 param nodeCount int = 2
 
-resource aksCluster 'Microsoft.ContainerService/managedClusters@2021-05-01' = {
+
+
+resource aksCluster 'Microsoft.ContainerService/managedClusters@2023-07-02-preview' = {
   name: aksClusterName
   location: location
   properties: {
@@ -19,6 +25,7 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2021-05-01' = {
     agentPoolProfiles: [
       {
         name: 'nodepool1'
+        osDiskSizeGB: osDiskSizeGB
         count: nodeCount
         vmSize: vmSize
         osType: 'Linux'
@@ -37,8 +44,7 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2021-05-01' = {
     identity: {
       type: 'SystemAssigned'
     }
-  }
 }
 
 
-output kubeConfig string = aksCluster.properties.kubeConfig
+output controlplaneFQDN string = aksCluster.properties.fqdn
