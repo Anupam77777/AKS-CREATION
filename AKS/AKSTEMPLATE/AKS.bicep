@@ -1,9 +1,6 @@
 @description('Name of the AKS cluster')
 param aksClusterName string
 
-@description('Name of the resource group')
-param resourceGroupName string 
-
 @description('Location for the resources')
 param location string
 
@@ -43,8 +40,5 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2021-05-01' = {
   }
 }
 
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' existing = {
-  name: resourceGroupName
-}
 
 output kubeConfig string = aksCluster.properties.kubeConfig
